@@ -8,9 +8,49 @@
 <body>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; background: #e8f0f8; margin: 0; padding: 0; }
-  body { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-  .app { max-width: 420px; width: 100%; background: #0A1628; color: #fff; font-family: sans-serif; border-radius: 16px; overflow: hidden; box-shadow: 0 0 40px rgba(0,163,224,0.15); }
+  html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+  body {
+    display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2847 30%, #0a1628 50%, #1a3a5c 70%, #0a1628 100%);
+    position: relative; overflow: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(0,163,224,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(244,121,32,0.12) 0%, transparent 40%),
+      radial-gradient(ellipse at 60% 80%, rgba(0,163,224,0.1) 0%, transparent 45%);
+  }
+  body::after {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120' fill='rgba(0,163,224,0.08)'%3E%3Cpolygon points='45,0 25,50 42,50 20,120 70,45 50,45 70,0'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120' fill='rgba(244,121,32,0.07)'%3E%3Cpolygon points='45,0 25,50 42,50 20,120 70,45 50,45 70,0'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120' fill='rgba(0,163,224,0.05)'%3E%3Cpolygon points='45,0 25,50 42,50 20,120 70,45 50,45 70,0'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120' fill='rgba(244,121,32,0.06)'%3E%3Cpolygon points='45,0 25,50 42,50 20,120 70,45 50,45 70,0'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 120' fill='rgba(0,163,224,0.04)'%3E%3Cpolygon points='45,0 25,50 42,50 20,120 70,45 50,45 70,0'/%3E%3C/svg%3E");
+    background-size: 60px 90px, 50px 75px, 45px 68px, 55px 82px, 40px 60px;
+    background-position: 5% 10%, 90% 15%, 15% 75%, 80% 70%, 50% 45%;
+    background-repeat: no-repeat;
+    animation: pulseGlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+  .energy-ring {
+    position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+    border: 1px solid rgba(0,163,224,0.1);
+    animation: ringPulse 6s ease-in-out infinite;
+  }
+  .energy-ring:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -80px; animation-delay: 0s; }
+  .energy-ring:nth-child(2) { width: 400px; height: 400px; bottom: -150px; right: -120px; border-color: rgba(244,121,32,0.08); animation-delay: 2s; }
+  .energy-ring:nth-child(3) { width: 200px; height: 200px; top: 30%; left: 5%; border-color: rgba(0,163,224,0.06); animation-delay: 4s; }
+  @keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+  }
+  .app { max-width: 420px; width: 100%; background: #0A1628; color: #fff; font-family: sans-serif; border-radius: 16px; overflow: hidden; box-shadow: 0 0 50px rgba(0,163,224,0.25), 0 0 100px rgba(244,121,32,0.1); position: relative; z-index: 1; }
   @media (max-width: 420px) { html, body { background: #0A1628; } .app { min-height: 100vh; border-radius: 0; box-shadow: none; } body { align-items: flex-start; } }
   .screen { display: none; }
   .screen.active { display: block; }
@@ -106,6 +146,9 @@
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 </style>
 
+<div class="energy-ring"></div>
+<div class="energy-ring"></div>
+<div class="energy-ring"></div>
 <div class="app">
   <div class="screen active" id="s-onboard">
     <div class="ob-hero">
